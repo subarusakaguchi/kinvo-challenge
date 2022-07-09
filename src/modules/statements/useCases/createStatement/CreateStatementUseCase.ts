@@ -23,7 +23,6 @@ class CreateStatementUseCase {
   ) {}
   async execute({ amount, description, type }: IRequest): Promise<Statement> {
     const dateNow = this.dateProvider.dateNow();
-    console.log(dateNow);
 
     const newStatement = await this.statementsRepository.create({
       amount,

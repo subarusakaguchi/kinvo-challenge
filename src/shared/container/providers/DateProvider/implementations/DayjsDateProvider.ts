@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 import { IDateProvider, IManipulateDaysDTO } from "../IDateProvider";
@@ -7,8 +7,11 @@ dayjs.extend(utc);
 
 class DayjsDateProvider implements IDateProvider {
   dateNow(): Date {
-    console.log(dayjs().toDate());
     return dayjs().toDate();
+  }
+
+  dateNowInUTC(): Dayjs {
+    return dayjs().utc();
   }
 
   manipulateDays({ days, type }: IManipulateDaysDTO): Date {
@@ -17,6 +20,14 @@ class DayjsDateProvider implements IDateProvider {
     }
 
     return dayjs().subtract(days, "days").toDate();
+  }
+
+  manipulateDaysInUTC({ days, type }: IManipulateDaysDTO): Dayjs {
+    if (type === "add") {
+      return dayjs().utc().add(days, "days");
+    }
+
+    return dayjs().utc().subtract(days, "days");
   }
 }
 

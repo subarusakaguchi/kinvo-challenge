@@ -1,5 +1,5 @@
 import { ICreateStatementDTO } from "../../../../dtos/ICreateStatementDTO";
-import { IFindStatementsByDateDTO } from "../../../../dtos/IFindStatamentsByDateDTO";
+import { IFindStatementsDTO } from "../../../../dtos/IFindStatementsDTO";
 import { Statement } from "../../entities/Statement";
 import { IStatementsRepository } from "../IStatementsRepository";
 
@@ -28,10 +28,7 @@ class StatementsRepositoryInMemory implements IStatementsRepository {
     return newStatement;
   }
 
-  async findByDate({
-    date,
-    by,
-  }: IFindStatementsByDateDTO): Promise<Statement[]> {
+  async list({ date, by }: IFindStatementsDTO): Promise<Statement[]> {
     let statements: Statement[];
     if (by === "start_date") {
       statements = this.repository.filter(

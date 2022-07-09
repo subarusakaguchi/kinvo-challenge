@@ -1,7 +1,12 @@
-import { getRepository, Repository } from "typeorm";
+import {
+  getRepository,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from "typeorm";
 
 import { ICreateStatementDTO } from "../../../../dtos/ICreateStatementDTO";
-import { IFindStatementsByDateDTO } from "../../../../dtos/IFindStatamentsByDateDTO";
+import { IFindStatementsDTO } from "../../../../dtos/IFindStatementsDTO";
 import { Statement } from "../../entities/Statement";
 import { IStatementsRepository } from "../IStatementsRepository";
 
@@ -28,8 +33,18 @@ class StatementsRepository implements IStatementsRepository {
     return newStatement;
   }
 
-  async findByDate(data: IFindStatementsByDateDTO): Promise<Statement[]> {
-    throw new Error("Method not implemented.");
+  async list({ date, by }: IFindStatementsDTO): Promise<Statement[]> {
+    const statements = await this.statements.find({
+      where: {
+        created_at:
+          by === "start_date" ? MoreThanOrEqual(date) : LessThanOrEqual(date),
+      },
+      order: {
+        created_at: by === "start_date" ? "ASC" : "DESC",
+      },
+    });
+
+    return statements;
   }
 }
 

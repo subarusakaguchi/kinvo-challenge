@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 
@@ -21,10 +22,10 @@ class Statement {
   type: STATEMENT_TYPE;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Dayjs;
 
   @CreateDateColumn()
-  updated_at: Date;
+  updated_at: Dayjs;
 
   constructor() {
     if (!this.id) {

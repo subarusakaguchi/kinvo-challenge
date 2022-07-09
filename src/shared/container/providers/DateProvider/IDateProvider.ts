@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 interface IManipulateDaysDTO {
   days: number;
   type: "add" | "subtract";
@@ -5,7 +7,9 @@ interface IManipulateDaysDTO {
 
 interface IDateProvider {
   dateNow(): Date;
+  dateNowInUTC(): Dayjs;
   manipulateDays(data: IManipulateDaysDTO): Date;
+  manipulateDaysInUTC(data: IManipulateDaysDTO): Dayjs;
 }
 
 export { IDateProvider, IManipulateDaysDTO };
