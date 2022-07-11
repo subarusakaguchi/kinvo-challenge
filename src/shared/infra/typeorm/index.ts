@@ -5,8 +5,11 @@ export default async (host = "database_kinvo_api"): Promise<Connection> => {
 
   return createConnection(
     Object.assign(defaultOptions, {
-      host,
-      database: defaultOptions.database,
+      host: process.env.NODE_ENV === "test" ? "localhost" : host,
+      database:
+        process.env.NODE_ENV === "test"
+          ? "kinvo_api_test"
+          : defaultOptions.database,
     })
   );
 };

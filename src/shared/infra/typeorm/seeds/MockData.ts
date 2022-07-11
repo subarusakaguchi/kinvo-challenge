@@ -78,4 +78,4 @@ async function create() {
   await connection.close();
 }
 
-create().then(() => console.log(`Info added`));
+create().then(() => console.log(`Mock Data Inserted`));

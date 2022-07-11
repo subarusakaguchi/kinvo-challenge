@@ -10,6 +10,7 @@ interface IDateProvider {
   dateNowInUTC(): Dayjs;
   manipulateDays(data: IManipulateDaysDTO): Date;
   manipulateDaysInUTC(data: IManipulateDaysDTO): Dayjs;
+  isDateUTC(date: Dayjs | Date): boolean;
 }
 
 export { IDateProvider, IManipulateDaysDTO };

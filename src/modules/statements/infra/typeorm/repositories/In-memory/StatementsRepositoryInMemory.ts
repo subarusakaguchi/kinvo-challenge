@@ -14,6 +14,8 @@ class StatementsRepositoryInMemory implements IStatementsRepository {
     amount,
     description,
     type,
+    created_at,
+    updated_at,
   }: ICreateStatementDTO): Promise<Statement> {
     const newStatement = new Statement();
 
@@ -21,6 +23,8 @@ class StatementsRepositoryInMemory implements IStatementsRepository {
       amount,
       description,
       type,
+      created_at,
+      updated_at,
     });
 
     this.repository.push(newStatement);
@@ -41,6 +45,41 @@ class StatementsRepositoryInMemory implements IStatementsRepository {
     }
 
     return statements;
+  }
+
+  async findById(id: string): Promise<Statement> {
+    return this.repository.find((statement) => statement.id === id);
+  }
+
+  async delete(id: string): Promise<void> {
+    const statementIndex = this.repository.findIndex(
+      (statement) => statement.id === id
+    );
+
+    this.repository = this.repository.slice(statementIndex, 1);
+  }
+
+  async balance(
+    with_statements: boolean
+  ): Promise<
+    { balance: number } | { balance: number; statements: Statement[] }
+  > {
+    const balance = this.repository.reduce((acc, operation) => {
+      if (operation.type === "income") {
+        return acc + operation.amount;
+      }
+
+      return acc - operation.amount;
+    }, 0);
+
+    if (with_statements) {
+      return {
+        balance,
+        statements: this.repository,
+      };
+    }
+
+    return { balance };
   }
 }
 

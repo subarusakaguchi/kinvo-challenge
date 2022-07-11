@@ -29,6 +29,16 @@ class DayjsDateProvider implements IDateProvider {
 
     return dayjs().utc().subtract(days, "days");
   }
+
+  isDateUTC(date: Dayjs | Date): boolean {
+    const isUtc = dayjs(date).isUTC();
+
+    if (isUtc) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export { DayjsDateProvider };
